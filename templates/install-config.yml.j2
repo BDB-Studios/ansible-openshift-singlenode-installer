@@ -1,0 +1,25 @@
+---
+
+apiVersion: v1
+baseDomain: "{{ domain_name }}"
+metadata:
+  name: "{{ cluster_name }}"
+networking:
+  networkType: OpenShiftSDN
+  clusterNetwork:
+    - cidr: {{ networking.cluster_network.cidr }}
+      hostPrefix: {{ networking.cluster_network.prefix }}
+  serviceNetwork: [{{ networking.service_network | join(',') }}]
+compute:
+  - name: worker
+    replicas: 0
+controlPlane:
+  name: master
+  replicas: 1
+platform:
+  none: {}
+bootstrapInPlace:
+  installationDisk: {{ installation_disk }}
+pullSecret: >
+  {{ openshift_pull_secret | indent }}
+sshKey: "{{ pub_key_contents }}"

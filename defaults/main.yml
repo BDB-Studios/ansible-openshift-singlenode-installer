@@ -1,0 +1,15 @@
+---
+
+domain_name: mms.local
+cluster_name: rhelossno
+
+network:
+  cluster_network:
+    cidr: "10.128.0.0/14"
+    prefix: 23
+  serviceNetwork:
+    - "172.30.0.0/16"
+
+installation_disk: "/dev/sda"
+openshift_pull_secret: "{}"
+pub_key_contents: ""

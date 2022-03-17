@@ -1,0 +1,44 @@
+variant: {{ openshift_variant | fcos }}
+version: 1.1.0
+ignition:
+  config:
+    merge:
+      - local: ${role}.ign
+storage:
+  files:
+    - path: /etc/zincati/config.d/90-disable-feature.toml
+      mode: 0644
+      contents:
+        inline: |
+          [updates]
+          enabled = false
+    - path: /etc/systemd/network/25-nic0.link
+      mode: 0644
+      contents:
+        inline: |
+          [Match]
+          MACAddress=${mac}
+          [Link]
+          Name=nic0
+    - path: /etc/NetworkManager/system-connections/nic0.nmconnection
+      mode: 0600
+      overwrite: true
+      contents:
+        inline: |
+          [connection]
+          type=ethernet
+          interface-name=nic0
+          [ethernet]
+          mac-address=${mac}
+          [ipv4]
+          method=manual
+          addresses=${ip_addr}/${SNC_NETMASK}
+          gateway=${SNC_GATEWAY}
+          dns=${SNC_NAMESERVER}
+          dns-search=${SNC_DOMAIN}
+    - path: /etc/hostname
+      mode: 0420
+      overwrite: true
+      contents:
+        inline: |
+          ${host_name}
