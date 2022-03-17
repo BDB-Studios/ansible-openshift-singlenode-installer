@@ -1,0 +1,42 @@
+---
+
+- block:
+    - name: Ensure our public key exists
+      stat:
+        path: "{{ install_config.pub_key_path }}"
+      register: pub_key_path
+
+    - block:
+        - name: Unset our path so we can rebuild our key
+          set_fact:
+            install_config:
+              pub_key_path: ""
+              pub_key_contents: ""
+      when: not pub_key_path.stat.exists
+
+    - block:
+        - name: Read our key contents
+          cmd:
+            command: "cat {{ install_config.pub_key_path }}"
+          register: pub_key_data
+
+        - name: Export our public key to the variable
+          set_fact:
+            install_config:
+              pub_key_contents: "{{ pub_key_data.stdout }}"
+      when: pub_key_path.stat.exists
+  when: install_config.pub_key_path != ""
+
+- block:
+    - name: Ensure we have a ssh key for OpenShift
+      openssh_keypair:
+        path: /root/.ssh/id_ed25519
+        regenerate: full_idempotence
+        type: ed25519
+      register: root_ssh_key
+
+    - name: Export our public key to the variable
+      set_fact:
+        install_config:
+          pub_key_contents: "{{ root_ssh_key.public_key }}"
+  when: install_config.pub_key_path == ""

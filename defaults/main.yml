@@ -1,27 +1,34 @@
 ---
 
-domain_name: mms.local
-cluster_name: rhelossno
+config:
+  base_version: "4.10"
+  base_url: "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/"
+  latest_path: "latest-{{ base_version }}/"
+  dl_url: "{{ base_url + latest_path }}"
+  binaries:
+    - "openshift-client-linux.tar.gz"
+    - "openshift-install-linux.tar.gz"
 
-network:
-  cluster_network:
-    cidr: "10.128.0.0/14"
-    prefix: 23
-  serviceNetwork:
-    - "172.30.0.0/16"
-
-installation_disk: "/dev/sda"
-openshift_pull_secret: "{}"
-pub_key_contents: ""
-
-openshift_variant: fcos
+install_config:
+  domain_name: "openshift.local"
+  cluster_name: "single-node"
+  network:
+    cluster_network:
+      cidr: "10.128.0.0/14"
+      prefix: 23
+    serviceNetwork:
+      - "172.30.0.0/16"
+  installation_disk: "/dev/sda"
+  openshift_pull_secret: "{}"
+  pub_key_path: ""
+  pub_key_contents: ""
 
 openshift:
   butane:
     variant: "openshift"
-    version: "4.10.0"
+    version: "{{ base_version }}.0"
   network:
-    interface: ens0
+    interface: "eth0"
     ipv4: "192.168.178.200"
     netmask: "255.255.255.0"
     prefix: "24"
