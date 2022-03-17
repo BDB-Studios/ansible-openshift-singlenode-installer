@@ -30,6 +30,14 @@
   when: install_config.pub_key_path != ""
 
 - block:
+    - name: Ensure that root has a .ssh directory
+      file:
+        state: directory
+        path: "/root/.ssh/"
+        mode: 0600
+        owner: root
+        group: root
+
     - name: Ensure we have a ssh key for OpenShift
       openssh_keypair:
         path: /root/.ssh/id_ed25519
