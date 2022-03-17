@@ -1,10 +1,10 @@
 ---
+base_version: "4.10"
 
 config:
-  base_version: "4.10"
   base_url: "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/"
   latest_path: "latest-{{ base_version }}/"
-  dl_url: "{{ base_url + latest_path }}"
+  dl_url: "{{ config.base_url + latest_path }}"
   binaries:
     - "openshift-client-linux.tar.gz"
     - "openshift-install-linux.tar.gz"
