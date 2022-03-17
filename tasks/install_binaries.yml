@@ -2,7 +2,7 @@
 
 - name: Download our openshift binaries
   unarchive:
-    src: "{{ config.dl_url + binary }}"
+    src: "{{ dl_url + binary }}"
     dest: "/usr/bin"
     remote_src: true
     mode: 0700

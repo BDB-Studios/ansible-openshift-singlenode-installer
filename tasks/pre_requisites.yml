@@ -73,13 +73,13 @@
 - name: Ensure that our installation directory and paths exist
   file:
     state: directory
-    path: "{{  base_directory }}/{{ directory }}"
+    path: "{{ base_directory }}/{{ sub }}"
     owner: root
     group: root
     mode: 0644
   loop: "{{ config.sub_dir }}"
   loop_control:
-    loop_var: directory
+    loop_var: sub
 
 - name: Install Container Tools Group
   dnf:
