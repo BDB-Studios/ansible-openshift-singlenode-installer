@@ -40,3 +40,19 @@
         install_config:
           pub_key_contents: "{{ root_ssh_key.public_key }}"
   when: install_config.pub_key_path == ""
+
+- name: Ensure that our installation directory and paths exist
+  file:
+    state: directory
+    path: "{{ config.base_dir }}/{{ directory }}"
+    owner: root
+    group: root
+    mode: 0644
+  loop: "{{ config.sub_dir }}"
+  loop_control:
+    loop_var: directory
+
+- name: Install Container Tools Group
+  dnf:
+    name: "@container-tools"
+    state: present

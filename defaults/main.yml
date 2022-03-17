@@ -8,6 +8,16 @@ config:
   binaries:
     - "openshift-client-linux.tar.gz"
     - "openshift-install-linux.tar.gz"
+  base_dir: "/openshift"
+  sub_dirs:
+    - temp
+    - iso
+
+butane:
+  version: "v0.14.0"
+  base_url: "https://github.com/coreos/butane/releases/download/"
+  binaries:
+    - "butane-x86_64-unknown-linux-gnu"
 
 install_config:
   domain_name: "openshift.local"
