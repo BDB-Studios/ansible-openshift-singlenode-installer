@@ -44,3 +44,5 @@ openshift:
     gateway: "192.168.178.1"
     dns: "8.8.8.8,8.8.4.4,1.1.1.1"
     search_domain: "mms.local"
+    may_fail: false
+    method: manual

@@ -5,3 +5,6 @@
 
 - name: Download and install our binaries/iso
   include_tasks: install_binaries.yml
+
+- name: Create our ISO
+  include_tasks: create_iso.yml

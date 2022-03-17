@@ -1,0 +1,11 @@
+[connection]
+id={{ openshift.network.interface }}
+type=ethernet
+interface-name={{ openshift.network.interface }}
+
+[ipv4]
+address1={{ openshift.network.ipv4 }}/{{ openshift.network.prefix }},{{ openshift.network.gateway }}
+dns={{ openshift.network.dns }};
+dns-search={{ openshift.network.search_domain }}
+may-fail={{ openshift.network.may_fail }}
+method={{ openshift.network.method }}
