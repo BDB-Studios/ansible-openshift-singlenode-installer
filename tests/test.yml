@@ -2,4 +2,4 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - ansible-openshift-singlenode-installer
+    - ansible_openshift_singlenode_installer
