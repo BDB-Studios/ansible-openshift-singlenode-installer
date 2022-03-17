@@ -41,6 +41,30 @@
           pub_key_contents: "{{ root_ssh_key.public_key }}"
   when: install_config.pub_key_path == ""
 
+- block:
+    - name: Get stat on our pull secret file
+      stat:
+        path: "{{ install_config.openshift_pull_secret_path }}"
+      register: pull_secret_file
+
+    - block:
+        - name: Read our contents of our pull secret file
+          command:
+            cmd: "cat {{ install_config.openshift_pull_secret_path }}"
+          register: pull_secret_contents
+          changed_when: myoutput.rc != 0
+          failed_when: myoutput.rc != 0
+
+        - name: Set pull secret fact
+          set_fact:
+            install_config:
+              openshift_pull_secret: "{{ pull_secret_contents.stdout }}"
+
+      when: pull_secret_file.stat.exists
+
+  when: install_config.openshift_pull_secret_path != ""
+
+
 - name: Ensure that our installation directory and paths exist
   file:
     state: directory

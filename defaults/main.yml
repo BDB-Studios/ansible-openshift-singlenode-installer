@@ -28,7 +28,8 @@ install_config:
     serviceNetwork:
       - "172.30.0.0/16"
   installation_disk: "/dev/sda"
-  openshift_pull_secret: "{}"
+  openshift_pull_secret: '{"auths":{"fake":{"auth": "Zm9vOmJhcgo="}}}'
+  openshift_pull_secret_path: ""
   pub_key_path: ""
   pub_key_contents: ""
 

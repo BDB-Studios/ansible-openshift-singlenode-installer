@@ -64,5 +64,5 @@
       iso customize
       --network-keyfile {{ config.base_dir }}/temp/{{ openshift.network.interface }}.nmconnection
       {{ config.base_dir }}/iso/rhcos-live.x86_64.iso
-# noqa no-changed-when
+  # noqa no-changed-when
 # yamllint enable rule:line-length
