@@ -15,3 +15,19 @@
     url: "{{ butane.base_url + butane.version + '/' + butane.binary }}"
     dest: "/usr/bin/butane"
     mode: 0700
+
+- name: Get our CoreOS iso url
+  shell: >
+    set -o pipefail;
+    openshift-install coreos print-stream-json |
+    grep location |
+    grep x86_64 |
+    grep iso |
+    cut -d\" -f4
+  changed_when: true
+  register: coreos_iso_url
+
+- name: Download our CoreOS iso
+  get_url:
+    url: "{{ coreos_iso_url.stdout }}"
+    dest: "{{ config.base_dir }}/temp/rhcos-live.x86_64.iso"

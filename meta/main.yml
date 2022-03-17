@@ -1,6 +1,8 @@
 ---
 
 galaxy_info:
+  role_name: ansible_openshift_singlenode_installer
+  namespace: bdbstudios
   author: Brett Minnie
   description: Create a Single Node Bootstrap iso for OpenShift
   company: BDB-Studios
