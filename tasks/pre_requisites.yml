@@ -4,7 +4,7 @@
     - name: Ensure our public key exists
       stat:
         path: "{{ install_config.pub_key_path }}"
-      register: pub_key_path
+      register: pub_key_path_test
 
     - block:
         - name: Unset our path so we can rebuild our key
@@ -12,7 +12,7 @@
             install_config:
               pub_key_path: ""
               pub_key_contents: ""
-      when: not pub_key_path.stat.exists
+      when: not pub_key_path_test.stat.exists
 
     - block:
         - name: Read our key contents
