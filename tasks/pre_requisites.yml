@@ -77,7 +77,7 @@
     owner: root
     group: root
     mode: 0644
-  loop: "{{ config.sub_dir }}"
+  loop: "{{ config.sub_dirs }}"
   loop_control:
     loop_var: sub
 
