@@ -3,7 +3,7 @@
 - name: Create our install-config.yaml file
   template:
     src: "./templates/install-config.yml.j2"
-    dest: "{{ config.base_dir }}/temp/install-config.yaml"
+    dest: "{{  base_directory }}/temp/install-config.yaml"
     owner: root
     group: root
     mode: 0644
@@ -12,17 +12,17 @@
   command:
     cmd: >
       openshift-install
-      --dir={{ config.base_dir }}/temp
+      --dir={{  base_directory }}/temp
       create
       single-node-ignition-config
   args:
-    creates: "{{ config.base_dir }}/temp/bootstrap-in-place-for-live-iso.ign"
+    creates: "{{  base_directory }}/temp/bootstrap-in-place-for-live-iso.ign"
 
 # yamllint disable rule:line-length
 - name: Create our network interface nmconnection file
   template:
     src: "./templates/interface.nmconnection.j2"
-    dest: "{{ config.base_dir }}/temp/{{ openshift.network.interface }}.nmconnection"
+    dest: "{{  base_directory }}/temp/{{ openshift.network.interface }}.nmconnection"
     owner: root
     group: root
     mode: 0644
@@ -31,7 +31,7 @@
 - name: Create our ignition config file
   template:
     src: "./templates/networking-ignition.yml.j2"
-    dest: "{{ config.base_dir }}/temp/networking-ignition.yaml"
+    dest: "{{  base_directory }}/temp/networking-ignition.yaml"
     owner: root
     group: root
     mode: 0644
@@ -39,16 +39,16 @@
 - name: Copy our single-node-ignition-config.ig file to our iso directory
   command:
     cmd: >
-      cp {{ config.base_dir }}/temp/bootstrap-in-place-for-live-iso.ign
-      {{ config.base_dir }}/iso/iso.ign
+      cp {{  base_directory }}/temp/bootstrap-in-place-for-live-iso.ign
+      {{  base_directory }}/iso/iso.ign
   args:
-    creates: "{{ config.base_dir }}/iso/iso.ign"
+    creates: "{{  base_directory }}/iso/iso.ign"
 
 - name: Create our CoreOS boot iso
   shell: >
       podman run --privileged --rm -v
       /dev:/dev -v /run/udev:/run/udev
-      -v {{ config.base_dir }}/iso:/data
+      -v {{  base_directory }}/iso:/data
       -w /data quay.io/coreos/coreos-installer:release
       iso
       ignition
@@ -62,7 +62,7 @@
   shell: >
       coreos-installer
       iso customize
-      --network-keyfile {{ config.base_dir }}/temp/{{ openshift.network.interface }}.nmconnection
-      {{ config.base_dir }}/iso/rhcos-live.x86_64.iso
+      --network-keyfile {{  base_directory }}/temp/{{ openshift.network.interface }}.nmconnection
+      {{  base_directory }}/iso/rhcos-live.x86_64.iso
   # noqa no-changed-when
 # yamllint enable rule:line-length

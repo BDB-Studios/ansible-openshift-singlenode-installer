@@ -73,7 +73,7 @@
 - name: Ensure that our installation directory and paths exist
   file:
     state: directory
-    path: "{{ config.base_dir }}/{{ directory }}"
+    path: "{{  base_directory }}/{{ directory }}"
     owner: root
     group: root
     mode: 0644
