@@ -2,3 +2,6 @@
 
 - name: Install pre-requisites
   include_tasks: pre_requisites.yml
+
+- name: Download and install our binaries
+  include_tasks: install_binaries.yml

@@ -1,0 +1,17 @@
+---
+
+- name: Download our openshift binaries
+  unarchive:
+    src: "{{ config.dl_url + binary }}"
+    dest: "/usr/bin"
+    remote_src: true
+    mode: 0700
+  loop: "{{ config.binaries }}"
+  loop_control:
+    loop_var: binary
+
+- name: Get our butane binary
+  get_url:
+    url: "{{ butane.base_url + butane.version + '/' + butane.binary }}"
+    dest: "/usr/bin/butane"
+    mode: 0700

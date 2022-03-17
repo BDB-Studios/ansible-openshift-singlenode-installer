@@ -1,0 +1,14 @@
+---
+
+galaxy_info:
+  author: Brett Minnie
+  description: Create a Single Node Bootstrap iso for OpenShift
+  company: BDB-Studios
+  license: MIT
+  min_ansible_version: 2.4
+  galaxy_tags: []
+  platforms:
+    - name: EL
+      versions:
+        - 8
+dependencies: []
