@@ -13,3 +13,18 @@ network:
 installation_disk: "/dev/sda"
 openshift_pull_secret: "{}"
 pub_key_contents: ""
+
+openshift_variant: fcos
+
+openshift:
+  butane:
+    variant: "openshift"
+    version: "4.10.0"
+  network:
+    interface: ens0
+    ipv4: "192.168.178.200"
+    netmask: "255.255.255.0"
+    prefix: "24"
+    gateway: "192.168.178.1"
+    dns: "8.8.8.8,8.8.4.4,1.1.1.1"
+    search_domain: "mms.local"

@@ -1,0 +1,18 @@
+variant: {{ openshift.butane.variant }}
+version: {{ openshift.butane.version }}
+storage:
+  files:
+    - path: /etc/NetworkManager/system-connections/{{ openshift.network.interface }}.nmconnection
+      mode: 0600
+      contents:
+        inline: |
+          [connection]
+          id={{ openshift.network.interface }}
+          type=ethernet
+          interface-name={{ openshift.network.interface }}
+          [ipv4]
+          address1={{ openshift.network.ipv4 }}/{{ openshift.network.prefix }},{{ openshift.network.gateway }}
+          dns={{ openshift.network.dns }};
+          dns-search={{ openshift.network.search_domain }}
+          may-fail=false
+          method=manual
