@@ -16,9 +16,11 @@
 
     - block:
         - name: Read our key contents
-          cmd:
-            command: "cat {{ install_config.pub_key_path }}"
+          command:
+            cmd: "cat {{ install_config.pub_key_path }}"
           register: pub_key_data
+          changed_when: pub_key_data.rc != 0
+          failed_when: pub_key_data.rc != 0
 
         - name: Export our public key to the variable
           set_fact:
@@ -52,8 +54,8 @@
           command:
             cmd: "cat {{ install_config.openshift_pull_secret_path }}"
           register: pull_secret_contents
-          changed_when: myoutput.rc != 0
-          failed_when: myoutput.rc != 0
+          changed_when: pull_secret_contents.rc != 0
+          failed_when: pull_secret_contents.rc != 0
 
         - name: Set pull secret fact
           set_fact:
