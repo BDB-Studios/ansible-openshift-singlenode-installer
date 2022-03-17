@@ -4,7 +4,7 @@ apiVersion: v1
 baseDomain: "{{ install_config.domain_name }}"
 metadata:
   name: "{{ install_config.cluster_name }}"
-network:
+networking:
   networkType: OpenShiftSDN
   clusterNetwork:
     - cidr: {{ install_config.network.cluster_network.cidr }}
