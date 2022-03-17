@@ -30,4 +30,4 @@
 - name: Download our CoreOS iso
   get_url:
     url: "{{ coreos_iso_url.stdout }}"
-    dest: "{{  base_directory }}/temp/rhcos-live.x86_64.iso"
+    dest: "{{  base_directory }}/iso/rhcos-live.x86_64.iso"
