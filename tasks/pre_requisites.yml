@@ -47,9 +47,6 @@
         install_config: "{{ install_config | combine({ 'pub_key_contents': root_ssh_key.public_key }, recursive=true) }}"
   when: install_config.pub_key_path == ""
 
-- name: Debug
-  debug:
-    msg: "{{ install_config, install_config.openshift_pull_secret_path == '' }}"
 - block:
     - name: Get stat on our pull secret file
       stat:

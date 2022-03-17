@@ -25,7 +25,7 @@ install_config:
     cluster_network:
       cidr: "10.128.0.0/14"
       prefix: 23
-    serviceNetwork:
+    service_network:
       - "172.30.0.0/16"
   installation_disk: "/dev/sda"
   openshift_pull_secret: '{"auths":{"fake":{"auth": "Zm9vOmJhcgo="}}}'
