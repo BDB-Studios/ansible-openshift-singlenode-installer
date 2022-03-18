@@ -27,14 +27,6 @@
     group: root
     mode: 0644
 # yamllint enable rule:line-length
--
-- name: Create our ignition config file
-  template:
-    src: "./templates/networking-ignition.yml.j2"
-    dest: "{{  base_directory }}/temp/networking-ignition.yaml"
-    owner: root
-    group: root
-    mode: 0644
 
 - name: Copy our single-node-ignition-config.ig file to our iso directory
   command:
