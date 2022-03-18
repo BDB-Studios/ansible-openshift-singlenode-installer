@@ -1,5 +1,18 @@
 ---
 
+- name: Install Container Tools Group
+  dnf:
+    name:
+      - "@container-tools"
+    state: present
+
+- name: Download the latest coreos installer tool
+  get_url:
+    url: "{{ mirror_url }}/coreos-installer/latest/coreos-installer"
+    dest: /bin/coreos-installer
+    remote_src: true
+    mode: 0700
+
 - name: Download our openshift binaries
   unarchive:
     src: "{{ dl_url + binary }}"

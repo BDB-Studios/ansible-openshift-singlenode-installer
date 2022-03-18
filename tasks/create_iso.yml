@@ -55,7 +55,9 @@
       embed
       -fi iso.ign
       rhcos-live.x86_64.iso
-  # noqa no-changed-when
+  register: create_boot_iso
+  changed_when: create_boot_iso.rc != 0
+  failed_when: create_boot_iso.rc != 0
 
 # yamllint disable rule:line-length
 - name: Add our network customisations
@@ -64,5 +66,7 @@
       iso customize
       --network-keyfile {{  base_directory }}/temp/{{ openshift.network.interface }}.nmconnection
       {{  base_directory }}/iso/rhcos-live.x86_64.iso
-  # noqa no-changed-when
+  register: customise_network
+  changed_when: customise_network.rc != 0
+  failed_when: customise_network.rc != 0
 # yamllint enable rule:line-length

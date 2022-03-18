@@ -1,5 +1,5 @@
 ---
-
+# yamllint disable rule:line-length
 - block:
     - name: Ensure our public key exists
       stat:
@@ -77,8 +77,4 @@
   loop: "{{ config.sub_dirs }}"
   loop_control:
     loop_var: sub
-
-- name: Install Container Tools Group
-  dnf:
-    name: "@container-tools"
-    state: present
+# yamllint enable rule:line-length

@@ -1,7 +1,8 @@
 ---
 base_version: "4.10"
 base_directory: "/openshift"
-openshift_base_url: "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/"
+mirror_url: "https://mirror.openshift.com/pub/openshift-v4/clients"
+openshift_base_url: "{{ mirror_url }}/ocp/"
 latest_path: "latest-{{ base_version }}/"
 dl_url: "{{ openshift_base_url + latest_path }}"
 
