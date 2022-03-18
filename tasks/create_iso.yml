@@ -51,7 +51,8 @@
         },
         "mode": 420
       }
-    insert_after: '"files": \['
+    insertafter: '"files": \['
+    marker: ""
   when: install_config.hostname is defined and install_config.hostname | length > 0
 # yamllint enable rule:line-length
 
