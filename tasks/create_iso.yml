@@ -47,14 +47,14 @@
       {
         "path": "/etc/hostname",
         "contents": {
-          "source": "data:,tutorial%0A"
+          "source": "data:text/plain;charset=utf-8;base64,{{ install_config.hostname + '.' + install_config.domain_name | b64encode }}"
         },
         "mode": 420
       }
     insert_after: '"files": \['
   when: install_config.hostname is defined and install_config.hostname | length > 0
 # yamllint enable rule:line-length
--
+
 - name: Create our CoreOS boot iso
   shell: >
       podman run --privileged --rm -v
