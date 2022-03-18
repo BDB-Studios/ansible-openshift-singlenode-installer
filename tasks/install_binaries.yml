@@ -10,7 +10,6 @@
   get_url:
     url: "{{ mirror_url }}/coreos-installer/latest/coreos-installer"
     dest: /bin/coreos-installer
-    remote_src: true
     mode: 0700
 
 - name: Download our openshift binaries
