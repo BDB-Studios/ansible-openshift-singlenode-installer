@@ -3,7 +3,7 @@
 - name: Create our install-config.yaml file
   template:
     src: "./templates/install-config.yml.j2"
-    dest: "{{  base_directory }}/temp/install-config.yaml"
+    dest: "{{ base_directory }}/temp/install-config.yaml"
     owner: root
     group: root
     mode: 0644
@@ -12,35 +12,54 @@
   command:
     cmd: >
       openshift-install
-      --dir={{  base_directory }}/temp
+      --dir={{ base_directory }}/temp
       create
       single-node-ignition-config
   args:
-    creates: "{{  base_directory }}/temp/bootstrap-in-place-for-live-iso.ign"
+    creates: "{{ base_directory }}/temp/bootstrap-in-place-for-live-iso.ign"
 
 # yamllint disable rule:line-length
 - name: Create our network interface nmconnection file
   template:
     src: "./templates/interface.nmconnection.j2"
-    dest: "{{  base_directory }}/temp/{{ openshift.network.interface }}.nmconnection"
+    dest: "{{ base_directory }}/temp/{{ openshift.network.interface }}.nmconnection"
     owner: root
     group: root
     mode: 0644
 # yamllint enable rule:line-length
 
 - name: Copy our single-node-ignition-config.ig file to our iso directory
-  command:
-    cmd: >
-      cp {{  base_directory }}/temp/bootstrap-in-place-for-live-iso.ign
-      {{  base_directory }}/iso/iso.ign
+  shell:
+    set -o pipefail;
+    cat {{ base_directory }}/temp/bootstrap-in-place-for-live-iso.ign |
+    jq . > {{ base_directory }}/iso/iso.ign
   args:
-    creates: "{{  base_directory }}/iso/iso.ign"
+    creates: "{{ base_directory }}/iso/iso.ign"
+  register: copy_ign
+  changed_when: copy_ign.rc != 0
+  failed_when: copy_ign.rc != 0
 
+# yamllint disable rule:line-length
+- name: Set our hostname in our ignition file if it is defined
+  blockinfile:
+    path: "{{ base_directory }}/iso/iso.ign"
+    block: |
+      {
+        "path": "/etc/hostname",
+        "contents": {
+          "source": "data:,tutorial%0A"
+        },
+        "mode": 420
+      }
+    insert_after: '"files": \['
+  when: install_config.hostname is defined and install_config.hostname | length > 0
+# yamllint enable rule:line-length
+-
 - name: Create our CoreOS boot iso
   shell: >
       podman run --privileged --rm -v
       /dev:/dev -v /run/udev:/run/udev
-      -v {{  base_directory }}/iso:/data
+      -v {{ base_directory }}/iso:/data
       -w /data quay.io/coreos/coreos-installer:release
       iso
       ignition
@@ -56,8 +75,8 @@
   shell: >
       coreos-installer
       iso network embed
-      {{  base_directory }}/iso/rhcos-live.x86_64.iso
-      --keyfile {{  base_directory }}/temp/{{ openshift.network.interface }}.nmconnection
+      {{ base_directory }}/iso/rhcos-live.x86_64.iso
+      --keyfile {{ base_directory }}/temp/{{ openshift.network.interface }}.nmconnection
   register: customise_network
   changed_when: customise_network.rc != 0
   failed_when: customise_network.rc != 0

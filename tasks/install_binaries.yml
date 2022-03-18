@@ -4,6 +4,7 @@
   dnf:
     name:
       - "@container-tools"
+      - jq
     state: present
 
 - name: Download the latest coreos installer tool
