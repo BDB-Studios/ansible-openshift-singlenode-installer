@@ -63,9 +63,9 @@
 - name: Add our network customisations
   shell: >
       coreos-installer
-      iso customize
-      --network-keyfile {{  base_directory }}/temp/{{ openshift.network.interface }}.nmconnection
+      iso network embed
       {{  base_directory }}/iso/rhcos-live.x86_64.iso
+      --keyfile {{  base_directory }}/temp/{{ openshift.network.interface }}.nmconnection
   register: customise_network
   changed_when: customise_network.rc != 0
   failed_when: customise_network.rc != 0
