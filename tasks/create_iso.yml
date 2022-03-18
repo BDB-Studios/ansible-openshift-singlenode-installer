@@ -40,19 +40,24 @@
   failed_when: copy_ign.rc != 0
 
 # yamllint disable rule:line-length
-- name: Set our hostname in our ignition file if it is defined
-  blockinfile:
-    path: "{{ base_directory }}/iso/iso.ign"
-    block: |
-      {
-        "path": "/etc/hostname",
-        "contents": {
-          "source": "data:text/plain;charset=utf-8;base64,{{ install_config.hostname + '.' + install_config.domain_name | b64encode }}"
-        },
-        "mode": 420
-      },
-    insertafter: '"files": \['
-    marker: ""
+- block:
+    - name: Set fqdn fact
+      set_fact:
+        rhcos_fqdn: "{{ install_config.hostname + '.' + install_config.domain_name }}"
+
+    - name: Set our hostname in our ignition file if it is defined
+      blockinfile:
+        path: "{{ base_directory }}/iso/iso.ign"
+        block: |
+          {
+            "path": "/etc/hostname",
+            "contents": {
+              "source": "data:text/plain;charset=utf-8;base64,{{ rhcos_fqdn | b64encode }}"
+            },
+            "mode": 420
+          },
+        insertafter: '"files": \['
+        marker: ""
   when: install_config.hostname is defined and install_config.hostname | length > 0
 # yamllint enable rule:line-length
 
