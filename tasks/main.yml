@@ -1,5 +1,11 @@
 ---
 
+- block:
+    - name: Set our base_dir fact to use our hostname as well
+      set_fact:
+        base_directory: "{{ base_directory }}/{{ install_config.hostname }}"
+  when: install_config.hostname is defined and install_config.hostname | length > 0
+
 - name: Install pre-requisites
   include_tasks: pre_requisites.yml
 

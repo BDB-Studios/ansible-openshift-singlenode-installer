@@ -55,13 +55,14 @@ class CoreosIgnition(object):
         self.module.exit_json(changed=False)
 
     def _write_contents(self):
-        with open(self.params['path']) as file:
-            data = json.loads(file)
-            print(data)
-            data[self.params['section']][self.params['subsection']].append(self.params['content'])
-            json.dump(data, file)
+        raw = open(self.params['path'])
+        data = json.loads(raw)
+        data[self.params['section']][self.params['subsection']].append(self.params['content'])
+        with open(self.params['path'], 'w') as outfile:
+            json.dump(data, outfile)
 
-        file.close()
+        outfile.close()
+
         self.module.exit_json(changed=True, meta={"Result": self.params['content']})
 
 if __name__ == '__main__':
