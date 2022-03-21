@@ -46,32 +46,20 @@
         rhcos_fqdn: "{{ install_config.hostname + '.' + install_config.domain_name }}"
 
     - name: Set our hostname in our ignition file if it is defined
-      blockinfile:
+      coreos_ignition:
         path: "{{ base_directory }}/iso/iso.ign"
-        block: |
-          {
-            "path": "/etc/hostname",
-            "contents": {
-              "source": "data:text/plain;charset=utf-8;base64,{{ rhcos_fqdn | b64encode }}"
-            },
-            "mode": 420
-          },
-        insertafter: '"files": \['
-        marker: ""
+        section: "storage"
+        subsection: "files"
+        content: '{"path":"/etc/hostname", "contents": { "source": "data:text/plain;charset=utf-8;base64,{{ rhcos_fqdn | b64encode }}"} , "mode": 420}'
   when: install_config.hostname is defined and install_config.hostname | length > 0
 # yamllint enable rule:line-length
 
 - name: Create our CoreOS boot iso
   shell: >
-      podman run --privileged --rm -v
-      /dev:/dev -v /run/udev:/run/udev
-      -v {{ base_directory }}/iso:/data
-      -w /data quay.io/coreos/coreos-installer:release
-      iso
-      ignition
-      embed
-      -fi iso.ign
-      rhcos-live.x86_64.iso
+      coreos-installer
+      iso ignition embed
+      -fi {{ base_directory }}/iso/iso.ign
+    {{ base_directory }}/iso/rhcos-live.x86_64.iso
   register: create_boot_iso
   changed_when: create_boot_iso.rc != 0
   failed_when: create_boot_iso.rc != 0
