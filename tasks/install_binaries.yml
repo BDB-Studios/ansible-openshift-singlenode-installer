@@ -1,9 +1,8 @@
 ---
 
-- name: Install Container Tools Group
+- name: Install some deps
   dnf:
     name:
-      - "@container-tools"
       - jq
     state: present
 
