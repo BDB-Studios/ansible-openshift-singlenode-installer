@@ -2,6 +2,7 @@
 
 from ansible.module_utils.basic import *
 import json
+import ast
 
 DOCUMENTATION = '''
 ---
@@ -56,14 +57,16 @@ class CoreosIgnition(object):
 
     def _write_contents(self):
         raw = open(self.params['path'])
-        data = json.loads(raw)
-        data[self.params['section']][self.params['subsection']].append(self.params['content'])
+        data = json.load(raw)
+        dict = ast.literal_eval(self.params['content'])
+        data[self.params['section']][self.params['subsection']].append(dict)
         with open(self.params['path'], 'w') as outfile:
             json.dump(data, outfile)
 
         outfile.close()
 
         self.module.exit_json(changed=True, meta={"Result": self.params['content']})
+
 
 if __name__ == '__main__':
     CoreosIgnition()
