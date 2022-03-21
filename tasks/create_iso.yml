@@ -59,7 +59,7 @@
       coreos-installer
       iso ignition embed
       -fi {{ base_directory }}/iso/iso.ign
-    {{ base_directory }}/iso/rhcos-live.x86_64.iso
+      {{ base_directory }}/iso/rhcos-live.x86_64.iso
   register: create_boot_iso
   changed_when: create_boot_iso.rc != 0
   failed_when: create_boot_iso.rc != 0

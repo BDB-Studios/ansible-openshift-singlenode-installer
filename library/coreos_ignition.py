@@ -51,15 +51,18 @@ class CoreosIgnition(object):
         )
 
         self.params = self.module.params
+        print(self.params)
         self._write_contents()
 
     def _write_contents(self):
         with open(self.params.path) as file:
             data = json.loads(file)
+            print(data)
             data[self.params.section][self.params.subsection].append(self.params.content)
             json.dump(data, file)
 
         file.close()
+
 
 if __name__ == '__main__':
     CoreosIgnition()
