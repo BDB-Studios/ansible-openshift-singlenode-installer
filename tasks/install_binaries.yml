@@ -12,15 +12,29 @@
     dest: /bin/coreos-installer
     mode: 0700
 
-- name: Download our openshift binaries
-  unarchive:
-    src: "{{ dl_url + binary }}"
-    dest: "/usr/bin"
-    remote_src: true
-    mode: 0700
-  loop: "{{ config.binaries }}"
-  loop_control:
-    loop_var: binary
+- name: Check if our oc binary is installed
+  stat:
+    path: /bin/oc
+  register: oc_binary
+
+- name: Check if our openshift-install binary is installed
+  stat:
+    path: /bin/openshift-install
+  register: openshift_install_binary
+
+- block:
+    - name: Download our openshift binaries
+      unarchive:
+        src: "{{ dl_url + binary }}"
+        dest: "/usr/bin"
+        remote_src: true
+        mode: 0700
+      loop: "{{ config.binaries }}"
+      loop_control:
+        loop_var: binary
+  when:
+    - oc_binary.stat.exists == False
+    - openshift_install_binary.stat.exists == False
 
 - name: Get our butane binary
   get_url:
