@@ -128,7 +128,7 @@ class CoreosIgnition(object):
             self.json_data[self.params['section']][self.params['subsection']].append(content_dictionary)
         else:
             self.result['original_message'] = str(self.json_data[self.params['section']][self.params['subsection']])
-            self.json_data[self.params['section']][self.params['subsection']].update(content_dictionary)
+            self.json_data[self.params['section']][self.params['subsection']] = content_dictionary
         self.result['changed'] = True
         self.result['message'] = str(content_dictionary)
 
