@@ -36,12 +36,6 @@
     - oc_binary.stat.exists == False
     - openshift_install_binary.stat.exists == False
 
-- name: Get our butane binary
-  get_url:
-    url: "{{ butane.base_url + butane.version + '/' + butane.binary }}"
-    dest: "/usr/bin/butane"
-    mode: 0700
-
 - name: Get our CoreOS iso url
   shell: >
     set -o pipefail;
