@@ -123,7 +123,7 @@ class CoreosIgnition(object):
             del(self.json_data[self.params['section']][self.params['subsection']])
 
     def _change_contents(self):
-        content_dictionary = ast.literal_eval(self.params['content'])
+        content_dictionary = [ast.literal_eval(self.params['content'])]
         if not self._content_exists():
             self.json_data[self.params['section']][self.params['subsection']].append(content_dictionary)
         else:
