@@ -50,7 +50,7 @@
         path: "{{ base_directory }}/iso/iso.ign"
         section: "storage"
         subsection: "files"
-        content: '{"path":"/etc/hostname", "contents": { "source": "data:text/plain;charset=utf-8;base64,{{ rhcos_fqdn | b64encode }}"} , "mode": 420}'
+        content: '[{"path":"/etc/hostname", "contents": { "source": "data:text/plain;charset=utf-8;base64,{{ rhcos_fqdn | b64encode }}"} , "mode": 420}]'
   when: install_config.hostname is defined and install_config.hostname | length > 0
 # yamllint enable rule:line-length
 
