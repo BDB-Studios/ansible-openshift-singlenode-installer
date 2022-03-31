@@ -44,5 +44,6 @@ openshift:
     search_domain: "mms.local"
     may_fail: false
     method: manual
-  # This requires each mac address to have the prefix "mac:"
-  unmanaged_network_devices: []
+  # This requires each interface in a string to be in the format
+  # interface-name:xxx;"
+  unmanaged_network_devices: ""

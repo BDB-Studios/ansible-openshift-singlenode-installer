@@ -14,11 +14,7 @@ method={{ openshift.network.method }}
 method=disabled
 
 # Disable the following
-{% if openshift.unmanaged_network_devices | length < 0 %}
-{% set devices = [] %}
-{% for device in openshift.unmanaged_network_devices %}
-{% devices.append(format("interface-name:%s", device)) %}
-{% endfor %}
+{% if openshift.unmanaged_network_devices | length > 0 %}
 [keyfile]
-unmanaged-devices={{ devices | join(';') }}
+unmanaged-devices={{ openshift.unamanged_network_devices }}
 {% endif %}
