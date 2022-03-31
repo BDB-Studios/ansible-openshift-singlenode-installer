@@ -12,3 +12,13 @@ method={{ openshift.network.method }}
 
 [ipv6]
 method=disabled
+
+# Disable the following
+{% if openshift.unmanaged_network_devices | length < 0 %}
+{% set devices = [] %}
+{% for device in openshift.unmanaged_network_devices %}
+{% devices.append(format("interface-name:%s", device)) %}
+{% endfor %}
+[keyfile]
+unmanaged-devices={{ devices | join(';') }}
+{% endif %}
