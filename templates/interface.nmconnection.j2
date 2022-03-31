@@ -16,5 +16,5 @@ method=disabled
 # Disable the following
 {% if openshift.unmanaged_network_devices | length > 0 %}
 [keyfile]
-unmanaged-devices={{ openshift.unamanged_network_devices }}
+unmanaged-devices={{ openshift.unmanaged_network_devices }}
 {% endif %}
