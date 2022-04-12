@@ -5,7 +5,7 @@ baseDomain: "{{ install_config.domain_name }}"
 metadata:
   name: "{{ install_config.cluster_name }}"
 networking:
-  networkType: OpenShiftSDN
+  networkType: OVNKubernetes
   clusterNetwork:
     - cidr: {{ install_config.network.cluster_network.cidr }}
       hostPrefix: {{ install_config.network.cluster_network.prefix }}
