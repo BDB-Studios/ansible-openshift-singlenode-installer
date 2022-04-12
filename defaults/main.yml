@@ -5,6 +5,7 @@ mirror_url: "https://mirror.openshift.com/pub/openshift-v4/clients"
 openshift_base_url: "{{ mirror_url }}/ocp/"
 latest_path: "latest-{{ base_version }}/"
 dl_url: "{{ openshift_base_url + latest_path }}"
+customise_network: false
 
 config:
   binaries:
