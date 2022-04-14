@@ -65,15 +65,15 @@
   failed_when: create_boot_iso.rc != 0
 
 # yamllint disable rule:line-length
-- block:
-    - name: Add our network customisations
-      shell: >
-        coreos-installer
-        iso customise
-        --network-keyfile {{ base_directory }}/temp/{{ openshift.network.interface }}.nmconnection
-        {{ base_directory }}/iso/rhcos-live.x86_64.iso
-      register: customise_network
-      changed_when: customise_network.rc != 0
-      failed_when: customise_network.rc != 0
+  - name: Add our network customisations
+    shell: >
+      coreos-installer
+      iso customise
+      --network-keyfile {{ base_directory }}/temp/{{ openshift.network.interface }}.nmconnection
+      --force
+      {{ base_directory }}/iso/rhcos-live.x86_64.iso
+    register: customise_network
+    changed_when: customise_network.rc != 0
+    failed_when: customise_network.rc != 0
 #  when: customise_network
 # yamllint enable rule:line-length
